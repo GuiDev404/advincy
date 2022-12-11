@@ -1,0 +1,81 @@
+.form-new-regalo {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  gap: 5px;
+  border-radius: var(--radius);
+  margin: 1rem auto;
+  padding: 0.7rem;
+  background-color: var(--primary);
+  border: 1px solid transparent;
+}
+
+.giftname_input {
+  /* outline: none; */
+  border: 1px solid transparent;
+  padding: .5rem;
+  font-size: 1rem;
+  flex-basis: calc(80% - 10px);
+  background-color: transparent;
+  color: var(--color);
+}
+
+.quantity_input {
+  border: 1px solid #31344b;
+  color: #31344b;
+  border-radius: var(--radius);
+  flex-basis: 10%;
+  width: 10%;
+  font-family: var(--font-sans-serif);
+  text-align: center;
+  font-size: 1rem;
+  padding: 5px;
+  background-color: transparent;
+}
+
+.form-new-regalo:focus-within,
+ .giftname_input:focus + .quantity_input {
+  border-color: var(--secondary) !important;
+}
+
+.giftname_input:focus + .quantity_input,
+.quantity_input:focus {
+  color: var(--secondary);
+}
+
+.form-new-regalo button {
+  flex-basis: 10%;
+  background-color: var(--secondary);
+  color: var(--color);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius);
+}
+
+.form-new-regalo button:focus,
+.form-new-regalo button:hover {
+  background-color: var(--secondary-dark);
+}
+
+.form-new-regalo button:disabled {
+  background-color: #31344b;
+}
+
+.error-message {
+  color: #de3f3f;
+  flex-basis: 100%;
+  margin-top: -.5rem;
+  margin-bottom: 1rem;
+  font-size: .9rem;
+}
+
+.giftimg_input {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  font-family: 'Roboto';
+  padding: .5rem;
+  width: 100%;
+  color: var(--color);
+  margin-top: .5rem;
+}

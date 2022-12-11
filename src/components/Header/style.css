@@ -1,0 +1,12 @@
+.header {
+  text-align: center;
+}
+
+.header__heading  {
+  font-size: 2.5rem;
+  font-family: 'Roboto', Georgia, 'Times New Roman', Times, serif;
+}
+
+.header__heading + p {
+  padding-bottom: .5rem;
+}

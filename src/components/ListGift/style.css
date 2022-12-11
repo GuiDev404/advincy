@@ -1,0 +1,43 @@
+.regalos-list__item {
+  /* width: 75%; */
+  text-align: start;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: var(--primary-dark);
+  padding: 5px .5rem 5px .5rem;
+  border-radius: var(--radius);
+  font-size: .9rem;
+}
+
+.regalos-list__item:hover {
+  background-color: #12131a;
+}
+
+/* .item__name::before {
+  content: '';
+} */
+
+.item__delete {
+  width: 25px;
+  height: 25px;
+  font-variant-caps: small-caps;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--snow);
+  background: transparent;
+}
+
+.item__delete:hover {
+  background-color: var(--primary);
+}
+
+.item__img {
+  border-radius: var(--radius);
+  object-fit: cover;
+}
