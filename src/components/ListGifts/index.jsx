@@ -1,8 +1,8 @@
 import Button from "../Button";
-import { Gift, NoGift, TrashIcon } from "../Icons";
+import { AddIcon, Gift, NoGift, TrashIcon } from "../Icons";
 import "./style.css";
 
-const ListRegalos = ({ regalos, extractKey, renderItems, deleteAll }) => {
+const ListRegalos = ({ regalos, extractKey, renderItems, deleteAll, showDrawer }) => {
   return (
     
     <div className="regalos-list-container">
@@ -15,6 +15,14 @@ const ListRegalos = ({ regalos, extractKey, renderItems, deleteAll }) => {
               className="muted-text"
             />
             <p> No hay regalos deseados. Agrega algunos. </p>
+
+            <Button
+                onClick={showDrawer}
+                className='delete-all'
+              >
+                <AddIcon width='18' height='18' />
+                <span> Agregar regalo </span>
+              </Button>
           </div>
         </>
       ) : (
@@ -24,13 +32,28 @@ const ListRegalos = ({ regalos, extractKey, renderItems, deleteAll }) => {
               <Gift />
               {regalos.length} {regalos.length === 1 ? "regalo" : "regalos"}
             </p>
-            <Button
-              onClick={deleteAll}
-              className='delete-all'
-            >
-              <TrashIcon width='18' height='18' />
-              <span> Eliminar todo </span>
-            </Button>
+
+            <div className="regalos-list-actions">
+              <Button
+                onClick={showDrawer}
+                className='delete-all'
+              >
+                <AddIcon 
+                  width='18'
+                  height='18'
+                  strokeWidth={2}
+                />
+                <span> Agregar regalo </span>
+              </Button>
+
+              <Button
+                onClick={deleteAll}
+                className='delete-all'
+              >
+                <TrashIcon  width='18' height='18' />
+                <span> Eliminar todo </span>
+              </Button>
+            </div>
 
           </div>
           <div className="regalos-list-body">

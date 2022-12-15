@@ -1,14 +1,70 @@
 .regalos-list__item {
-  /* width: 75%; */
+  height: 50px;
+  width: 100%;
+  margin-bottom: .5rem;
+  
   text-align: start;
+
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
+  
   background-color: var(--primary-dark);
   padding: 5px .5rem 5px .5rem;
   border-radius: var(--radius);
   font-size: .9rem;
+}
+
+.left, .right {
+  /* width: 50%; */
+  display: flex;
+  align-items: center;
+}
+
+.left {
+  gap: .2rem;
+}
+
+.right {
+  gap: 1rem;
+}
+
+.right div {
+  display: flex;
+}
+
+.item__cantidad {
+  text-transform: uppercase;
+  font-size: .7rem;
+  padding: .2rem .5rem;
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+
+
+
+.left .item__data {
+  margin-left: .5rem;
+}
+
+.item__name {
+  font-size: 1rem;
+  margin-top: -0.3rem;
+  text-overflow: ellipsis;
+    width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.item__destinatario {
+  color: var(--muted);
+  margin-top: -.2rem;
+  display: block;
+}
+
+.regalos-list__item:hover .item__cantidad {
+  background-color: var(--primary);
 }
 
 .regalos-list__item:hover {
@@ -19,7 +75,7 @@
   content: '';
 } */
 
-.item__delete {
+.item__delete, .item__update {
   width: 25px;
   height: 25px;
   font-variant-caps: small-caps;
@@ -33,7 +89,7 @@
   background: transparent;
 }
 
-.item__delete:hover {
+.item__delete:hover, .item__update:hover {
   background-color: var(--primary);
 }
 

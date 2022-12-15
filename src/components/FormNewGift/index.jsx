@@ -1,37 +1,53 @@
 import React, { useState } from "react";
+import { useRef } from "react";
 import { useEffect } from "react";
+import { cleanStr } from "../../helpers";
+import Button from "../Button";
 import IconButton from "../IconButton";
 import { AddIcon } from "../Icons";
+import ListItem from "../ListGift";
 import './style.css'
 
-const FormNuevoRegalo = ({ addRegalo, regalos }) => {
-  const [ regalo, setRegalo ] = useState('')
-  const [ cantidad, setCantidad ] = useState(1)
-  const [ img, setImg ] = useState('')
+const DEFAULT_REGALO = {
+  nombre: '',
+  cantidad: 1,
+  imgURL: '',
+  destinatario: '',
+}
+
+const FormNuevoRegalo = ({ addRegalo, updateMode, regaloToUpdate, updateRegalo }) => {
+  const [ regalo, setRegalo ] = useState(DEFAULT_REGALO);
   const [ error, setError ] = useState('')
 
+ 
+
+  useEffect(()=> {
+    setRegalo(updateMode ? regaloToUpdate : DEFAULT_REGALO)
+  }, [updateMode])
+
   const handleChange = (e)=> {
-    setRegalo(e.target.value)
+    setRegalo(prev=> ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
   }
 
   const handleSubmit = (e)=> {
     e.preventDefault()
 
-    if(!regalo.trim()) return setError('Ingrese un nombre para el regalo');
+    if(!regalo.nombre.trim()) return setError('Ingrese un nombre para el regalo');
+    if(!regalo.destinatario.trim()) return setError('Ingrese un destinatario para el regalo');
 
-    addRegalo(regalo, cantidad, img)
-    setCantidad(1)
-    setImg('')
-    setRegalo('')
+    if(updateMode){
+      console.log('update');
+      updateRegalo(regalo)
+    } else {
+      console.log('add');
+      addRegalo(regalo)
+    }    
+
+    setRegalo(DEFAULT_REGALO)
     setError('')
-  }
-
-  const handleCantidad = (e)=> {
-    setCantidad(e.target.valueAsNumber)
-  }
-  
-  const handleChangeImg = (e)=> {
-    setImg(e.target.value)
   }
 
   useEffect(()=> {
@@ -44,48 +60,80 @@ const FormNuevoRegalo = ({ addRegalo, regalos }) => {
     return ()=> clearTimeout(timeoutId)
   }, [error])
 
-  const disabledBtn = !Boolean(regalo) || cantidad < 0;
+  const disabledBtn = !Boolean(cleanStr(regalo.nombre)) || regalo.cantidad < 0 || !Boolean(cleanStr(regalo.destinatario));
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="form-new-regalo">
+      <form onSubmit={handleSubmit} className="form-new-regalo"  >
         <input
-          value={regalo}
+          value={regalo.nombre}
           onChange={handleChange}
           type="text"
           autoComplete="no"
           placeholder="Que vas querer como regalo?"
           className="giftname_input"
-          autoFocus
+          name="nombre"
+          
         />
+
         <input
-          value={cantidad}
+          value={regalo.cantidad}
           className="quantity_input"
-          onChange={handleCantidad}
+          onChange={handleChange}
           type="number"
+          name="cantidad"
           min={1}
+          
         />
 
-        <IconButton
-          type="submit"
-          disabled={disabledBtn}
-          icon={
-            <AddIcon
-              width="20"
-              height="20"
-              style={{ marginTop: "3px" }}
-              strokeWidth="2"
-            />
-          }
+        <input
+          value={regalo.imgURL}
+          autoComplete="no"
+          type="text"
+          placeholder="Ingrese la url para la imagen"
+          className="giftimg_input"
+          name="imgURL"
+          onChange={handleChange}
+          
         />
 
-<input value={img}  autoComplete="no" type="text" placeholder="Ingrese la url para la imagen" className="giftimg_input" onChange={handleChangeImg} />
+        <input
+          value={regalo.destinatario}
+          autoComplete="no"
+          type="text"
+          placeholder="Ingrese el destinatario"
+          className="giftdest_input"
+          name="destinatario"
+          onChange={handleChange}
+          
+        />
 
-        {/* <button type="submit" disabled={disabledBtn}>
-          <AddIcon width="24" height="24" style={{ marginTop: '3px'  }}  strokeWidth="2" />
-        </button> */}
+        <Button type="submit" disabled={disabledBtn}  >
+          <AddIcon
+            width="22"
+            height="22"
+            style={{ marginRight: 5 }}
+            strokeWidth="2"
+            
+          />
+          <span> {updateMode ? "Actualizar" : "Agregar"} regalo </span>
+        </Button>
+
+        {error && <p className="error-message"> {error} </p>}
       </form>
-      {error && <p className="error-message"> {error} </p>}
+  
+      {cleanStr(regalo.nombre) && cleanStr(regalo.destinatario) && (
+        <div className="preview regalos-list__item">
+          <ListItem
+            isPreview
+            nombre={regalo.nombre}
+            cantidad={regalo.cantidad}
+            imgURL={regalo.imgURL}
+            destinatario={regalo.destinatario}
+          />
+        </div>
+      )}
+
     </>
   );
 };

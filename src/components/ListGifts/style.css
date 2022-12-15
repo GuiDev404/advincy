@@ -9,9 +9,9 @@
 }
 
 .regalos-list-body {
-  gap: 5px;
+  /* gap: 5px;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
 
   padding: 1rem;
   width: 100%;
@@ -54,4 +54,9 @@
   align-items: center;
   gap: 5px;
   text-transform: uppercase;
+}
+
+.regalos-list-actions {
+  display: flex;
+  gap: 5px;
 }

@@ -1,4 +1,3 @@
- 
 const Gift = (props) => (
   <svg
     width="18px"
@@ -64,8 +63,7 @@ const DeleteIcon = (props) => (
   </svg>
 );
 
-
-export const TrashIcon = (props) => (
+const TrashIcon = (props) => (
   <svg
     width="1em"
     height="1em"
@@ -80,6 +78,24 @@ export const TrashIcon = (props) => (
     <path d="M0 0h24v24H0z" stroke="none" />
     <path d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" />
   </svg>
-)
+);
 
-export { NoGift, Gift, AddIcon, DeleteIcon };
+const PencilIcon = (props) => (
+  <svg
+    width="1em"
+    height="1em"
+    viewBox="0 0 24 24"
+    strokeWidth={2}
+    stroke="currentColor"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M0 0h24v24H0z" stroke="none" />
+    <path d="M7 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-1" />
+    <path d="M20.385 6.585a2.1 2.1 0 0 0-2.97-2.97L9 12v3h3l8.385-8.415zM16 5l3 3" />
+  </svg>
+);
+
+export { NoGift, Gift, AddIcon, DeleteIcon, TrashIcon, PencilIcon };

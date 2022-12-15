@@ -43,13 +43,13 @@ body {
   
   text-align: center;
   
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  /* border-top-left-radius: 10px;
+  border-top-right-radius: 10px; */
   background-color: var(--primary-dark);
   color: var(--snow);
   box-shadow: var(--primary-shadow);
   width: 600px;
-  height: 80vh;
+  height: 100vh;
   
   overflow-y: auto;
 

@@ -6,6 +6,8 @@ import Header from "./components/Header";
 import ListItem from "./components/ListGift";
 import ListRegalos from "./components/ListGifts";
 import useStorage from "./hooks/useStorage";
+import Drawer from "./components/Drawer";
+import { cleanStr } from "./helpers";
 
 const REGALOS_INICIALES = [
   // { id: 1, name: "Celular" },
@@ -14,32 +16,46 @@ const REGALOS_INICIALES = [
 ];
 
 function App() {
+  const [show, setShow] = useState(false);
   const { storage: regalos, handleSetStorage: setRegalos  } = useStorage({
     initialState: REGALOS_INICIALES,
     key: 'regalos'
-  })
+  });
   
-  // const [regalos, setRegalos] = useState(storage);
-  
-  // useEffect(()=> {
-  //   addData(regalos)
-  // }, [regalos])
+  const [updateMode, setUpdateMode] = useState(false);
+  const [regaloToUpdate, setRegaloToUpdate] = useState(null);
 
-  const addRegalo = (nombreRegalo, cantidad, img) => {
+  const updateUIRegalo = (regaloSelected)=> {
+    setUpdateMode(true);
+    setRegaloToUpdate(regaloSelected)
+    showDrawer();
+  }
+
+  const updateRegalo = (regalo)=> {
+    setRegalos(regalos=> regalos.map(r=> r.id === regalo.id ? regalo : r))
+    closeDrawer()
+  }
+
+  const addRegalo = (regalo) => {
 
     const newRegalo = { 
       id: nanoid(),
-      name: nombreRegalo,
-      quantity: cantidad,
-      img: img
+      ...regalo
     };
 
-    const exist = regalos.find(r=> r.name.toLowerCase().trim() === nombreRegalo.toLowerCase().trim());
+    const regaloExistente = regalos.find(({ nombre, destinatario })=> 
+      cleanStr(nombre) === cleanStr(newRegalo.nombre) && 
+      cleanStr(destinatario) === cleanStr(newRegalo.destinatario)
+    );
    
-    if(exist){
-      setRegalos(prev=> prev.map(regalo=> {
-        return exist.id === regalo.id ? ({ ...regalo, quantity: Number(regalo.quantity) + cantidad }) : regalo
-      }));
+    if(regaloExistente){
+      setRegalos((prev) =>
+        prev.map((regalo) => {
+          return regaloExistente.id === regalo.id
+            ? { ...regalo, cantidad: Number(regalo.cantidad) + Number(newRegalo.cantidad) }
+            : regalo;
+        })
+      );
     } else {
       setRegalos(prev=> [...prev, newRegalo]);
     }
@@ -55,15 +71,36 @@ function App() {
     respuesta && setRegalos(REGALOS_INICIALES);
   }, [])
 
+  const closeDrawer = useCallback(()=>{    
+    setShow(false);
+    setUpdateMode(false);
+
+    setRegaloToUpdate(null);
+  }, [])
+  
+  const showDrawer = useCallback(()=>{
+    setShow(true)
+  }, [])
 
   return (
     <section className="regalos-container">
+      {show && <Drawer
+        title="Complete el formulario"
+        show={show}
+        closeDrawer={closeDrawer}
+      >
+        <FormNuevoRegalo 
+          addRegalo={addRegalo}
+          updateRegalo={updateRegalo}
+          updateMode={updateMode}
+          regaloToUpdate={regaloToUpdate}
+        />
+      </Drawer>}
+
       <Header 
         title={"Regalitos"}
         subtitle="Agregue todos los regalos que deseas para estas fiestas 🎁"
-      >
-        <FormNuevoRegalo addRegalo={addRegalo} regalos={regalos} />
-      </Header>
+      />
 
       <ListRegalos
         regalos={regalos}
@@ -71,13 +108,16 @@ function App() {
         renderItems={(regalo) => (
           <ListItem
             id={regalo.id}
-            name={regalo.name}
-            quantity={regalo.quantity}
-            imgUrl={regalo.img}
+            nombre={regalo.nombre}
+            cantidad={regalo.cantidad}
+            imgURL={regalo.imgURL}
+            destinatario={regalo.destinatario}
             deleteRegalo={deleteRegalo}
+            updateUIRegalo={updateUIRegalo}
           />
         )}
         deleteAll={deleteAll}
+        showDrawer={showDrawer}
       />
     </section>
   );

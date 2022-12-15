@@ -14,12 +14,16 @@
 - [x] Dia 8 - Cometimos un error el día anterior, la gente quiere agregar regalos repetidos para regalarselos a diferentes personas, agreguemos un campo al lado del input de texto para poner la cantidad de unidades del regalo que deberíamos comprar
 - [x] Dia 9 - La gente está triste por que al cerrar la aplicación pierde todos sus regalos 😢. Usemos `localStorage` para guardar los regalos en el dispositivo del usuario y cargarlos cuando vuelve
 - [x] Dia 10 - Agreguemos un campo donde podamos pegar un link de imágen para cada regalo y mostremoslo en la lista
+- [x] Dia 11 - Agregar drawer para el formulario
+- [x] Dia 12 - Agregar campo para el destinatario del regalo
+- [x] Dia 13 - Agregar un botón editar que nos permita cambiar regalos ya agregados
+- [x] Dia 14 - Darle accesibilidad con tabIndex, hagamos que podamos agregar, borrar y editar regalos sin tocar el mouse
 
 -------
 
 ## Notas
 
-- [ ] Arreglar formulario tanto UI como codigo, en el codigo primero pasar a usar un objeto, y en futuro si crece usar alguna libreria.
-- [ ] Si los GiftItem siguen creciendo en elementos pasarlos a tipo lista
+- [x] Arreglar formulario tanto UI como codigo, en el codigo primero pasar a usar un objeto, y en futuro si crece usar alguna libreria.
+- [x] Si los GiftItem siguen creciendo en elementos pasarlos a tipo lista
 
 * Crear ramas de ahora en mas para cambios grandes

@@ -10,41 +10,52 @@
   border: 1px solid transparent;
 }
 
+.form-new-regalo input, .form-new-regalo button{ 
+  border: 1px solid #31344b;
+  border-radius: var(--radius);
+  padding: .7rem;
+  outline: none;
+  color: var(--color);
+}
+
+.form-new-regalo input:focus {
+  border-color: var(--secondary) !important;
+}
+
 .giftname_input {
-  /* outline: none; */
+
   border: 1px solid transparent;
-  padding: .5rem;
   font-size: 1rem;
   flex-basis: calc(80% - 10px);
   background-color: transparent;
-  color: var(--color);
+ 
 }
 
 .quantity_input {
   border: 1px solid #31344b;
-  color: #31344b;
-  border-radius: var(--radius);
-  flex-basis: 10%;
-  width: 10%;
+
+  width: 21%;
   font-family: var(--font-sans-serif);
   text-align: center;
   font-size: 1rem;
-  padding: 5px;
   background-color: transparent;
 }
 
-.form-new-regalo:focus-within,
- .giftname_input:focus + .quantity_input {
+ .form-new-regalo:focus-within {
   border-color: var(--secondary) !important;
 }
 
-.giftname_input:focus + .quantity_input,
-.quantity_input:focus {
-  color: var(--secondary);
-}
 
 .form-new-regalo button {
-  flex-basis: 10%;
+  flex-basis: 100%;
+  padding: .5rem;
+  margin-top: 1rem;
+  font-family: var(--font-sans-serif);
+  font-size: .9rem;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text-transform: uppercase;
   background-color: var(--secondary);
   color: var(--color);
   cursor: pointer;
@@ -69,7 +80,7 @@
   font-size: .9rem;
 }
 
-.giftimg_input {
+.giftimg_input, .giftdest_input {
   background: transparent;
   border: none;
   font-size: 1rem;
