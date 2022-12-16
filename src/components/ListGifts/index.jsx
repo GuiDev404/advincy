@@ -18,7 +18,8 @@ const ListRegalos = ({ regalos, extractKey, renderItems, deleteAll, showDrawer }
 
             <Button
                 onClick={showDrawer}
-                className='delete-all'
+                className='add-new-gift'
+                style={{ margin: '1rem auto' }}
               >
                 <AddIcon width='18' height='18' />
                 <span> Agregar regalo </span>
@@ -36,7 +37,7 @@ const ListRegalos = ({ regalos, extractKey, renderItems, deleteAll, showDrawer }
             <div className="regalos-list-actions">
               <Button
                 onClick={showDrawer}
-                className='delete-all'
+                className='add-new-gift'
               >
                 <AddIcon 
                   width='18'

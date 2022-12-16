@@ -8,6 +8,8 @@ import ListRegalos from "./components/ListGifts";
 import useStorage from "./hooks/useStorage";
 import Drawer from "./components/Drawer";
 import { cleanStr } from "./helpers";
+import { api } from "./helpers/api";
+import Loader from "./components/Loader";
 
 const REGALOS_INICIALES = [
   // { id: 1, name: "Celular" },
@@ -17,10 +19,34 @@ const REGALOS_INICIALES = [
 
 function App() {
   const [show, setShow] = useState(false);
-  const { storage: regalos, handleSetStorage: setRegalos  } = useStorage({
-    initialState: REGALOS_INICIALES,
-    key: 'regalos'
-  });
+  // const { storage: regalos, handleSetStorage: setRegalos  } = useStorage({
+  //   initialState: REGALOS_INICIALES,
+  //   key: 'regalos'
+  // });
+
+  const [loading, setLoading] = useState('init');
+  const [regalos, setRegalos] = useState([]);
+  const [error, setError] = useState({});
+
+  const isLoading = loading === 'init' || loading === 'loading' 
+
+  useEffect(()=> {
+    setLoading('loading')
+
+    api.gift.list()
+      .then(response=> response.data)
+      .then(setRegalos)
+      .catch(setError)
+      .finally(()=> setLoading('terminated'))
+  }, [])
+
+  useEffect(()=> {
+    if(!isLoading) {
+      api.gift.save(regalos)
+        .then(console.log)
+        .catch(console.log)
+    }
+  }, [regalos, isLoading])
   
   const [updateMode, setUpdateMode] = useState(false);
   const [regaloToUpdate, setRegaloToUpdate] = useState(null);
@@ -102,23 +128,26 @@ function App() {
         subtitle="Agregue todos los regalos que deseas para estas fiestas 🎁"
       />
 
-      <ListRegalos
-        regalos={regalos}
-        extractKey={(regalo) => regalo.id}
-        renderItems={(regalo) => (
-          <ListItem
-            id={regalo.id}
-            nombre={regalo.nombre}
-            cantidad={regalo.cantidad}
-            imgURL={regalo.imgURL}
-            destinatario={regalo.destinatario}
-            deleteRegalo={deleteRegalo}
-            updateUIRegalo={updateUIRegalo}
+      {isLoading
+        ? <Loader />
+        : <ListRegalos
+            regalos={regalos}
+            extractKey={(regalo) => regalo.id}
+            renderItems={(regalo) => (
+              <ListItem
+                id={regalo.id}
+                nombre={regalo.nombre}
+                cantidad={regalo.cantidad}
+                imgURL={regalo.imgURL}
+                destinatario={regalo.destinatario}
+                deleteRegalo={deleteRegalo}
+                updateUIRegalo={updateUIRegalo}
+              />
+            )}
+            deleteAll={deleteAll}
+            showDrawer={showDrawer}
           />
-        )}
-        deleteAll={deleteAll}
-        showDrawer={showDrawer}
-      />
+      }
     </section>
   );
 }

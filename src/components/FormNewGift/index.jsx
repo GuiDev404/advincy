@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRef } from "react";
 import { useEffect } from "react";
-import { cleanStr } from "../../helpers";
+import { cleanStr, getNumberRandom } from "../../helpers";
 import Button from "../Button";
 import IconButton from "../IconButton";
 import { AddIcon } from "../Icons";
@@ -20,7 +20,6 @@ const FormNuevoRegalo = ({ addRegalo, updateMode, regaloToUpdate, updateRegalo }
   const [ error, setError ] = useState('')
 
  
-
   useEffect(()=> {
     setRegalo(updateMode ? regaloToUpdate : DEFAULT_REGALO)
   }, [updateMode])
@@ -62,9 +61,21 @@ const FormNuevoRegalo = ({ addRegalo, updateMode, regaloToUpdate, updateRegalo }
 
   const disabledBtn = !Boolean(cleanStr(regalo.nombre)) || regalo.cantidad < 0 || !Boolean(cleanStr(regalo.destinatario));
 
+  const handleRegaloAleatorio = ()=> {
+    const algunosRegalos = ['Medias', 'Carbon', 'PC','Grafica','Auriculares', 'Notebook']
+
+    setRegalo((prev) => ({
+      ...prev,
+      nombre: algunosRegalos[getNumberRandom(0, algunosRegalos.length - 1)],
+    }));
+  }
+
   return (
     <>
-      <form onSubmit={handleSubmit} className="form-new-regalo"  >
+      <form onSubmit={handleSubmit} className="form-new-regalo" >
+
+        <button type='button' onClick={handleRegaloAleatorio}> Sorprendeme! </button>
+
         <input
           value={regalo.nombre}
           onChange={handleChange}
@@ -73,7 +84,6 @@ const FormNuevoRegalo = ({ addRegalo, updateMode, regaloToUpdate, updateRegalo }
           placeholder="Que vas querer como regalo?"
           className="giftname_input"
           name="nombre"
-          
         />
 
         <input
@@ -83,7 +93,6 @@ const FormNuevoRegalo = ({ addRegalo, updateMode, regaloToUpdate, updateRegalo }
           type="number"
           name="cantidad"
           min={1}
-          
         />
 
         <input

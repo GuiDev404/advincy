@@ -4,6 +4,7 @@
   min-height: 100vh;
   overflow-y: auto;
   background: var(--primary-dark);
+  color: var(--color);
   padding: 1rem;
 }
 

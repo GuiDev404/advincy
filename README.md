@@ -18,6 +18,8 @@
 - [x] Dia 12 - Agregar campo para el destinatario del regalo
 - [x] Dia 13 - Agregar un botón editar que nos permita cambiar regalos ya agregados
 - [x] Dia 14 - Darle accesibilidad con tabIndex, hagamos que podamos agregar, borrar y editar regalos sin tocar el mouse
+- [x] Dia 15 - Preparemos un método para traernos nuestros regalos que use promesas o async await
+- [x] Dia 16 - Agreguemos un botón para obtener un regalo aleatorio para el campo "regalo", podés tener una lista fija de regalos, no es necesario que sean generados
 
 -------
 
