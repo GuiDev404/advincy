@@ -138,6 +138,7 @@ function App() {
                 id={regalo.id}
                 nombre={regalo.nombre}
                 cantidad={regalo.cantidad}
+                precio={regalo.precio}
                 imgURL={regalo.imgURL}
                 destinatario={regalo.destinatario}
                 deleteRegalo={deleteRegalo}

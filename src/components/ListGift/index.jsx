@@ -13,6 +13,7 @@ const ListItem = ({
   imgURL,
   destinatario,
   isPreview,
+  precio
 } = {}) => {
 
   const handleDelete = () => deleteRegalo(id);
@@ -24,6 +25,7 @@ const ListItem = ({
       cantidad,
       imgURL,
       destinatario,
+      precio
     });
 
   return (
@@ -49,7 +51,10 @@ const ListItem = ({
     
       <div className="right">
         <span className="item__cantidad"> 
-          {cantidad} {cantidad > 1 ? "regalos" : "regalo" } 
+          {/* {cantidad} {cantidad > 1 ? "regalos" : "regalo" } */}
+          <small> ✖ </small> {cantidad}
+          <br />
+          ${precio * cantidad} 
         </span>
 
         {!isPreview && (

@@ -1,4 +1,4 @@
-export const cleanStr = (str)=> str.toLowerCase().trim()
+export const cleanStr = (str)=> str.toString().toLowerCase().trim()
 
 export function getNumberRandom(min, max) {
   min = Math.ceil(min);
