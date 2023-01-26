@@ -1,119 +1,66 @@
-import { useCallback, useState, useEffect } from "react";
+import { useState } from "react";
 import { nanoid } from 'nanoid';
 
 import FormNuevoRegalo from "./components/FormNewGift";
 import Header from "./components/Header";
 import ListItem from "./components/ListGift";
 import ListRegalos from "./components/ListGifts";
-import useStorage from "./hooks/useStorage";
 import Drawer from "./components/Drawer";
-import { cleanStr } from "./helpers";
-import { api } from "./helpers/api";
 import Loader from "./components/Loader";
+import Button from "./components/Button";
 
-const REGALOS_INICIALES = [
-  // { id: 1, name: "Celular" },
-  // { id: 2, name: "Plata" },
-  // { id: 3, name: "Juego Steam" },
-];
+import useRegalos from "./hooks/useRegalos";
+import useDrawer from "./hooks/useDrawer";
 
 function App() {
-  const [show, setShow] = useState(false);
-  // const { storage: regalos, handleSetStorage: setRegalos  } = useStorage({
-  //   initialState: REGALOS_INICIALES,
-  //   key: 'regalos'
-  // });
-
-  const [loading, setLoading] = useState('init');
-  const [regalos, setRegalos] = useState([]);
-  const [error, setError] = useState({});
-
-  const isLoading = loading === 'init' || loading === 'loading' 
-
-  useEffect(()=> {
-    setLoading('loading')
-
-    api.gift.list()
-      .then(response=> response.data)
-      .then(setRegalos)
-      .catch(setError)
-      .finally(()=> setLoading('terminated'))
-  }, [])
-
-  useEffect(()=> {
-    if(!isLoading) {
-      api.gift.save(regalos)
-        .then(console.log)
-        .catch(console.log)
-    }
-  }, [regalos, isLoading])
+  const {isLoading, regalos, error, updateDbRegalo, deleteDbRegalo, addDbRegalo, deleteDbAllRegalos} = useRegalos()
   
   const [updateMode, setUpdateMode] = useState(false);
   const [regaloToUpdate, setRegaloToUpdate] = useState(null);
 
+  const { show: showForm, closeDrawer: closeDrawerForm, showDrawer: showDrawerForm } = useDrawer()
+  const { show: showComprar, closeDrawer: closeDrawerComprar, showDrawer: showDrawerComprar } = useDrawer()
+  
+  const handlePrint = ()=> window.print()
+
+  const onCloseDrawer = ()=> {
+    setUpdateMode(false);
+    setRegaloToUpdate(null);
+  }
+
+  const duplicateUIRegalo = (regaloSelected)=> {
+    setRegaloToUpdate(regaloSelected)
+    showDrawerForm();
+  }
+
   const updateUIRegalo = (regaloSelected)=> {
     setUpdateMode(true);
     setRegaloToUpdate(regaloSelected)
-    showDrawer();
+    showDrawerForm();
   }
 
   const updateRegalo = (regalo)=> {
-    setRegalos(regalos=> regalos.map(r=> r.id === regalo.id ? regalo : r))
-    closeDrawer()
+    updateDbRegalo(regalo)
+    onCloseDrawer();
+    closeDrawerForm()
   }
 
   const addRegalo = (regalo) => {
-
     const newRegalo = { 
-      id: nanoid(),
-      ...regalo
+      ...regalo,
+      id: nanoid()
     };
 
-    const regaloExistente = regalos.find(({ nombre, destinatario })=> 
-      cleanStr(nombre) === cleanStr(newRegalo.nombre) && 
-      cleanStr(destinatario) === cleanStr(newRegalo.destinatario)
-    );
-   
-    if(regaloExistente){
-      setRegalos((prev) =>
-        prev.map((regalo) => {
-          return regaloExistente.id === regalo.id
-            ? { ...regalo, cantidad: Number(regalo.cantidad) + Number(newRegalo.cantidad) }
-            : regalo;
-        })
-      );
-    } else {
-      setRegalos(prev=> [...prev, newRegalo]);
-    }
-
+    addDbRegalo(newRegalo)
   };
-
-  const deleteRegalo = useCallback((id)=> {
-    setRegalos(prevRegalos=> prevRegalos.filter(regalo=> regalo.id !== id))
-  }, [])
-
-  const deleteAll = useCallback(()=> {
-    const respuesta = confirm('Desea eliminar todos los regalos?')
-    respuesta && setRegalos(REGALOS_INICIALES);
-  }, [])
-
-  const closeDrawer = useCallback(()=>{    
-    setShow(false);
-    setUpdateMode(false);
-
-    setRegaloToUpdate(null);
-  }, [])
-  
-  const showDrawer = useCallback(()=>{
-    setShow(true)
-  }, [])
-
+ 
   return (
     <section className="regalos-container">
-      {show && <Drawer
+      {showForm && <Drawer
         title="Complete el formulario"
-        show={show}
-        closeDrawer={closeDrawer}
+        show={showForm}
+        closeDrawer={closeDrawerForm}
+        onCloseDrawer={onCloseDrawer}
       >
         <FormNuevoRegalo 
           addRegalo={addRegalo}
@@ -123,11 +70,43 @@ function App() {
         />
       </Drawer>}
 
+      <Drawer
+        title='Comprar'
+        show={showComprar}
+        closeDrawer={closeDrawerComprar}
+      >
+        <ListRegalos
+          isPreview
+          regalos={regalos}
+          extractKey={(regalo) => regalo.id}
+          renderItems={(regalo) => (
+            <ListItem
+              id={regalo.id}
+              nombre={regalo.nombre}
+              cantidad={regalo.cantidad}
+              precio={regalo.precio}
+              imgURL={regalo.imgURL}
+              destinatario={regalo.destinatario}
+              isPreview
+            />
+          )}
+        />
+
+        <Button
+          className='btn__print'
+          onClick={handlePrint}
+        >
+          Imprimir
+        </Button>
+
+      </Drawer>
+
       <Header 
         title={"Regalitos"}
         subtitle="Agregue todos los regalos que deseas para estas fiestas 🎁"
       />
 
+    
       {isLoading
         ? <Loader />
         : <ListRegalos
@@ -141,12 +120,14 @@ function App() {
                 precio={regalo.precio}
                 imgURL={regalo.imgURL}
                 destinatario={regalo.destinatario}
-                deleteRegalo={deleteRegalo}
+                deleteRegalo={deleteDbRegalo}
                 updateUIRegalo={updateUIRegalo}
+                duplicateUIRegalo={duplicateUIRegalo}
               />
             )}
-            deleteAll={deleteAll}
-            showDrawer={showDrawer}
+            deleteAll={deleteDbAllRegalos}
+            showDrawer={showDrawerForm}
+            showDrawerComprar={showDrawerComprar}
           />
       }
     </section>

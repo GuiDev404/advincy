@@ -1,12 +1,13 @@
 import React from "react";
 import IconButton from "../IconButton";
-import { DeleteIcon, PencilIcon } from "../Icons";
+import { DeleteIcon, DuplicateIcon, PencilIcon } from "../Icons";
 import placeholder from "../../assets/placeholder_no_img.png";
 import "./style.css";
 
 const ListItem = ({
   deleteRegalo,
   updateUIRegalo,
+  duplicateUIRegalo,
   id,
   nombre,
   cantidad,
@@ -18,8 +19,8 @@ const ListItem = ({
 
   const handleDelete = () => deleteRegalo(id);
 
-  const handleUpdate = () =>
-  updateUIRegalo({
+  const handleUpdate = () => {
+    updateUIRegalo({
       id,
       nombre,
       cantidad,
@@ -27,6 +28,18 @@ const ListItem = ({
       destinatario,
       precio
     });
+  }
+    
+  const handleDuplicate = () => {
+    duplicateUIRegalo({
+      id,
+      nombre,
+      cantidad,
+      imgURL,
+      destinatario: '',
+      precio
+    });
+  }
 
   return (
     <>
@@ -59,6 +72,13 @@ const ListItem = ({
 
         {!isPreview && (
           <div>
+           
+            <IconButton
+              icon={<DuplicateIcon width="14" height="14" />}
+              onClick={handleDuplicate}
+              className="item__update"
+            />
+
             <IconButton
               icon={<PencilIcon width="14" height="14" />}
               onClick={handleUpdate}

@@ -21,13 +21,13 @@
 .regalos-list-header {
   display: flex;
   justify-content: space-between;
-  padding: 0 1rem;
+  padding: .5rem 1rem;
   width: 100%;
   align-items: center;
 }
 
 .regalos-list-header .delete-all,
-.add-new-gift {
+.add-new-gift, .btn__print {
   padding: 0.5rem;
   font-family: var(--font-sans-serif);
   /* font-size: 0.9rem; */

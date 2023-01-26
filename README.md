@@ -20,12 +20,7 @@
 - [x] Dia 14 - Darle accesibilidad con tabIndex, hagamos que podamos agregar, borrar y editar regalos sin tocar el mouse
 - [x] Dia 15 - Preparemos un método para traernos nuestros regalos que use promesas o async await
 - [x] Dia 16 - Agreguemos un botón para obtener un regalo aleatorio para el campo "regalo", podés tener una lista fija de regalos, no es necesario que sean generados
-
--------
-
-## Notas
-
-- [x] Arreglar formulario tanto UI como codigo, en el codigo primero pasar a usar un objeto, y en futuro si crece usar alguna libreria.
-- [x] Si los GiftItem siguen creciendo en elementos pasarlos a tipo lista
-
-* Crear ramas de ahora en mas para cambios grandes
+- [x] Dia 17 - Campo de precio y mostrar el total de acuerdo a la cantidad
+- [x] Dia 18 - Poner un total de todos los regalos
+- [x] Dia 19 - Boton de duplicar, para regalar un mismo regalo a diferentes personas
+- [x] Refactor

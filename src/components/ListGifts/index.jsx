@@ -2,7 +2,7 @@ import Button from "../Button";
 import { AddIcon, Gift, NoGift, TrashIcon } from "../Icons";
 import "./style.css";
 
-const ListRegalos = ({ regalos, extractKey, renderItems, deleteAll, showDrawer }) => {
+const ListRegalos = ({ regalos, extractKey, renderItems, deleteAll, showDrawer, showDrawerComprar, isPreview = false } = {}) => {
   return (
     
     <div className="regalos-list-container">
@@ -29,11 +29,21 @@ const ListRegalos = ({ regalos, extractKey, renderItems, deleteAll, showDrawer }
       ) : (
         <>
           <div className="regalos-list-header">
-            <p className="regalos-list-count"> 
-              <Gift />
-              {regalos.length} {regalos.length === 1 ? "regalo" : "regalos"}
-            </p>
+            <div>
+              <p className="regalos-list-count"> 
+                <Gift />
+                {regalos.length} {regalos.length === 1 ? "regalo" : "regalos"}
+              </p>
+              <p className="regalos-list-count" style={{ margin: '0 .1rem' }}>
+                <span style={{ fontSize: '1.1rem' }} > $ </span>
+                {regalos.reduce((acc, c)=> {
+                  acc += parseInt(c.precio, 10) * parseInt(c.cantidad);
+                  return acc
+                },0)}
+              </p>
+            </div>
 
+            {!isPreview &&
             <div className="regalos-list-actions">
               <Button
                 onClick={showDrawer}
@@ -54,7 +64,15 @@ const ListRegalos = ({ regalos, extractKey, renderItems, deleteAll, showDrawer }
                 <TrashIcon  width='18' height='18' />
                 <span> Eliminar todo </span>
               </Button>
-            </div>
+           
+              <Button
+                onClick={showDrawerComprar}
+                className='delete-all'
+              >
+                {/* <TrashIcon  width='18' height='18' /> */}
+                <span> Previsualizar </span>
+              </Button>
+            </div>}
 
           </div>
           <div className="regalos-list-body">

@@ -48,7 +48,7 @@ body {
   background-color: var(--primary-dark);
   color: var(--snow);
   box-shadow: var(--primary-shadow);
-  width: 600px;
+  width: 700px;
   height: 100vh;
   
   overflow-y: auto;
@@ -60,4 +60,22 @@ body {
 }
 
 
+@media print {
+  .drawer_wrapper {
+    justify-content: center;
+  }
+
+  .regalos-list-header {
+    padding: 1rem;
+  }
+
+  .drawer_header h2 {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .drawer__close, .btn__print {
+    display: none;
+  }
+}
 

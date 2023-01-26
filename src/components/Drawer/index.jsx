@@ -10,7 +10,7 @@ const SIZES = {
   lg: 500,
 }
 
-const Drawer = ({ show = false, title, children, footerContent, size = 'md', closeDrawer } = {}) => {
+const Drawer = ({ show = false, title, children, footerContent, size = 'md', closeDrawer, onCloseDrawer } = {}) => {
   const drawerConfig = { 
     width: SIZES[size] ?? SIZES['md'],
   }
@@ -43,6 +43,7 @@ const Drawer = ({ show = false, title, children, footerContent, size = 'md', clo
 
   const handleClose = (e)=> {
     e.target.classList.contains("drawer_wrapper") && closeDrawer()
+    onCloseDrawer && onCloseDrawer()
   }
 
   const drawerContainer = document.getElementById('drawer')

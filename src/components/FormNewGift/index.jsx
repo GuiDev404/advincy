@@ -31,9 +31,13 @@ const FormNuevoRegalo = ({ addRegalo, updateMode, regaloToUpdate, updateRegalo }
 
   const nonValidGift = validations.includes(true);
 
+  // useEffect(()=> {
+  //   setRegalo(updateMode ? regaloToUpdate : DEFAULT_REGALO)
+  // }, [updateMode])
+
   useEffect(()=> {
-    setRegalo(updateMode ? regaloToUpdate : DEFAULT_REGALO)
-  }, [updateMode])
+    setRegalo(regaloToUpdate ?? DEFAULT_REGALO)
+  }, [regaloToUpdate])
   
   useEffect(()=> {
     const [ isEmptyName, isEmptyDest, isEmptyPrice, isEmptyCant, isValidCant, isValidPrice ] = [...validations];
